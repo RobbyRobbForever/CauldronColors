@@ -1,0 +1,42 @@
+package com.example.cauldroncolors.data;
+
+import com.example.cauldroncolors.CauldronColors;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.Items;
+
+import java.util.concurrent.CompletableFuture;
+
+public class CauldronColorsLootTableProvider
+        extends FabricBlockLootTableProvider {
+
+    public CauldronColorsLootTableProvider(
+            FabricDataOutput output,
+            CompletableFuture<HolderLookup.Provider> registriesFuture
+    ) {
+        super(output, registriesFuture);
+    }
+
+    @Override
+    public void generate() {
+        dropSelf(CauldronColors.COPPER_CAULDRON);
+        dropSelf(CauldronColors.BLUE_EGG_BLOCK);
+        dropSelf(CauldronColors.BROWN_EGG_BLOCK);
+        dropSelf(CauldronColors.MAGENTA_EGG_BLOCK);
+        dropSelf(CauldronColors.LIGHT_BLUE_EGG_BLOCK);
+        dropSelf(CauldronColors.YELLOW_EGG_BLOCK);
+        dropSelf(CauldronColors.LIME_EGG_BLOCK);
+        dropSelf(CauldronColors.PINK_EGG_BLOCK);
+        dropSelf(CauldronColors.GRAY_EGG_BLOCK);
+        dropSelf(CauldronColors.LIGHT_GRAY_EGG_BLOCK);
+        dropSelf(CauldronColors.CYAN_EGG_BLOCK);
+        dropSelf(CauldronColors.PURPLE_EGG_BLOCK);
+        dropSelf(CauldronColors.GREEN_EGG_BLOCK);
+        dropSelf(CauldronColors.RED_EGG_BLOCK);
+        dropSelf(CauldronColors.ORANGE_EGG_BLOCK);
+        dropSelf(CauldronColors.BLACK_EGG_BLOCK);
+        dropSelf(CauldronColors.WHITE_EGG_BLOCK);
+    }
+}
+

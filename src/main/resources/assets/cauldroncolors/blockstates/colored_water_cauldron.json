@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "level=1,copper_origin=false": {
+      "model": "minecraft:block/water_cauldron_level1"
+    },
+    "level=2,copper_origin=false": {
+      "model": "minecraft:block/water_cauldron_level2"
+    },
+    "level=3,copper_origin=false": {
+      "model": "minecraft:block/water_cauldron_full"
+    },
+    "level=1,copper_origin=true": {
+      "model": "cauldroncolors:block/copper_cauldron_level1"
+    },
+    "level=2,copper_origin=true": {
+      "model": "cauldroncolors:block/copper_cauldron_level2"
+    },
+    "level=3,copper_origin=true": {
+      "model": "cauldroncolors:block/copper_cauldron_level3"
+    }
+  }
+}

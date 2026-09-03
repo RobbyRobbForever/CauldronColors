@@ -1,0 +1,37 @@
+﻿{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "cauldroncolors:copper_cauldron",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "cauldroncolors:colored_water_cauldron",
+                  "properties": {
+                    "copper_origin": "true"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "minecraft:cauldron"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

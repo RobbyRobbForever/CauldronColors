@@ -1,0 +1,262 @@
+{
+  "display": {
+    "icon": {
+      "id": "cauldroncolors:true_blue_egg"
+    },
+    "background": "minecraft:gui/advancements/backgrounds/stone",
+    "title": {
+      "text": "Egg-straordinary Job"
+    },
+    "description": {
+      "text": "Dye an egg of every color"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "white_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:white_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "orange_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:orange_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "magenta_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:magenta_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "light_blue_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:light_blue_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "yellow_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:yellow_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "lime_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:lime_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "pink_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:pink_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "gray_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:gray_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "light_gray_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:light_gray_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "cyan_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:cyan_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "purple_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:purple_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "blue_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:true_blue_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "brown_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:true_brown_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "green_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:green_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "red_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:red_egg"
+            ]
+          }
+        ]
+      }
+    },
+    "black_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "cauldroncolors:black_egg"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "white_egg"
+    ],
+    [
+      "orange_egg"
+    ],
+    [
+      "magenta_egg"
+    ],
+    [
+      "light_blue_egg"
+    ],
+    [
+      "yellow_egg"
+    ],
+    [
+      "lime_egg"
+    ],
+    [
+      "pink_egg"
+    ],
+    [
+      "gray_egg"
+    ],
+    [
+      "light_gray_egg"
+    ],
+    [
+      "cyan_egg"
+    ],
+    [
+      "purple_egg"
+    ],
+    [
+      "blue_egg"
+    ],
+    [
+      "brown_egg"
+    ],
+    [
+      "green_egg"
+    ],
+    [
+      "red_egg"
+    ],
+    [
+      "black_egg"
+    ]
+  ]
+}

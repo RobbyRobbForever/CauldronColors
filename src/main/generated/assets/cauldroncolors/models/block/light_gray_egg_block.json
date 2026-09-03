@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "cauldroncolors:block/light_gray_egg_block"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "cauldroncolors:colored_water_cauldron",
+    "cauldroncolors:blue_egg_block",
+    "cauldroncolors:brown_egg_block",
+    "cauldroncolors:magenta_egg_block",
+    "cauldroncolors:light_blue_egg_block",
+    "cauldroncolors:yellow_egg_block",
+    "cauldroncolors:lime_egg_block",
+    "cauldroncolors:pink_egg_block",
+    "cauldroncolors:gray_egg_block",
+    "cauldroncolors:light_gray_egg_block",
+    "cauldroncolors:cyan_egg_block",
+    "cauldroncolors:purple_egg_block",
+    "cauldroncolors:green_egg_block",
+    "cauldroncolors:red_egg_block",
+    "cauldroncolors:orange_egg_block",
+    "cauldroncolors:black_egg_block",
+    "cauldroncolors:white_egg_block"
+  ]
+}
