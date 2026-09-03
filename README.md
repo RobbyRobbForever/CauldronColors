@@ -67,4 +67,4 @@ interactions.
 ## License
 
 This project is available under the CC0 1.0 Universal license. See the
-`LICENSE` file for details.
+`LICENSE` file for details..
