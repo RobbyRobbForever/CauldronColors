@@ -1,39 +1,70 @@
-# Cauldron Colors
+# CauldronColors
 
-A Minecraft Fabric mod that [briefly describe what the mod does].
+CauldronColors is a client-side Minecraft Fabric mod that adds colored-water
+cauldron behavior. It includes copper-origin cauldrons, colored-water
+appearances, dye interactions, crafting recipes, and related item behavior.
+
+The project is experimental and currently under development.
 
 ## Features
 
-- [Feature one]
-- [Feature two]
-- [Feature three]
+- Colored water in cauldrons
+- Copper cauldrons that preserve their copper appearance
+- Dye interactions with cauldrons
+- Dyeing eggs when the cauldron is above a campfire
+- Crafting recipes for copper cauldrons
+- Vanilla style water bucket and glass bottle interactions
+- Copper-origin behavior preserved while water is added or removed
 
 ## Requirements
 
-- Minecraft version: [version]
-- Fabric Loader: [version]
-- Fabric API: [version]
-- Java: [version]
+- Minecraft: `1.21.11`
+- Fabric Loader: `0.19.3`
+- Fabric API: `0.141.6+1.21.11`
+- Java: `21`
 
 ## Installation
 
-1. Install Fabric Loader for the supported Minecraft version.
-2. Install Fabric API.
-3. Download the latest Cauldron Colors `.jar` file.
-4. Place the file in your Minecraft `mods` folder.
-5. Launch Minecraft with the Fabric profile.
+This project is currently in development and may be unstable and/or contain bugs. To use a development build:
+
+1. Install Java 21.
+2. Clone or download this repository.
+3. Open the project in IntelliJ IDEA.
+4. Allow Gradle to import the project.
+5. Run the `runClient` Gradle task.
 
 ## Development Setup
 
-1. Clone this repository.
-2. Open the project in IntelliJ IDEA.
-3. Allow Gradle to import the project.
-4. Run the appropriate development configuration.
+The project is developed using:
+
+- IntelliJ IDEA
+- Java 21
+- Gradle
+- Fabric Loader
+- Fabric API
+- Official Mojang mappings
+
+The project builds successfully and currently launches successfully using
+the `runClient` task.
+
+## Project Structure
+
+- `src/main/java/` — Java source code
+- `src/main/resources/` — textures, models, blockstates, recipes, loot tables, language files, and mod metadata
+- `src/main/resources/assets/cauldroncolors/` — client-side assets
+- `src/main/resources/data/cauldroncolors/` — recipes, loot tables, and other data files
+- `gradle/` — Gradle wrapper files
+- `.github/` — GitHub-related project files
 
 ## Project Status
 
-This project is currently [in development / stable / experimental].
+CauldronColors is experimental and actively being developed.
+
+The current build includes colored-water cauldrons, copper-origin cauldron
+behavior, dye interactions, egg dyeing, and water bucket and glass bottle
+interactions.
 
 ## License
 
-License information will be added later.
+This project is available under the CC0 1.0 Universal license. See the
+`LICENSE` file for details.
