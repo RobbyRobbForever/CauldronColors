@@ -50,4 +50,3 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
         builder.add(LEVEL);
     }
 }
-
