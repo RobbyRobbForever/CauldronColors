@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 import java.util.HashMap;
@@ -17,6 +18,12 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
 
     public static final IntegerProperty LEVEL =
             IntegerProperty.create("level", 0, 3);
+
+    public static final BooleanProperty LAVA =
+            BooleanProperty.create("lava");
+
+    public static final BooleanProperty LAVA_WARNING =
+            BooleanProperty.create("lava_warning");
 
     public static final CauldronInteraction.InteractionMap INTERACTIONS =
             new CauldronInteraction.InteractionMap(
@@ -30,6 +37,8 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
         this.registerDefaultState(
                 this.defaultBlockState()
                         .setValue(LEVEL, 0)
+                        .setValue(LAVA, false)
+                        .setValue(LAVA_WARNING, false)
         );
     }
 
@@ -47,6 +56,6 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
     protected void createBlockStateDefinition(
             StateDefinition.Builder<Block, BlockState> builder
     ) {
-        builder.add(LEVEL);
+        builder.add(LEVEL, LAVA, LAVA_WARNING);
     }
 }

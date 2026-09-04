@@ -59,6 +59,7 @@ Important behavior includes:
 - Bucket extraction from full copper cauldrons preserves copper.
 - Water bucket and glass-bottle behavior has been consolidated into shared handlers.
 - All core copper_cauldron interactions function as intended.
+- All core colored_egg and colored_egg_blocks function as intended.
 
 ## Recent Code Changes
 
@@ -98,7 +99,6 @@ No lava source block is created.
 Iron cauldron lava behavior must remain unchanged.
 
 - Recommended state design:
-
 BooleanProperty LAVA
 BooleanProperty LAVA_WARNING
 

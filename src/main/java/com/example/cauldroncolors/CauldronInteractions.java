@@ -97,7 +97,7 @@ public final class CauldronInteractions {
 
         CopperCauldronBlock.INTERACTIONS.map().put(
                 Items.LAVA_BUCKET,
-                (state, level, pos, player, hand, stack) -> InteractionResult.PASS
+                CauldronInteractions::fillCopperCauldronWithLava
         );
     }
 
@@ -264,6 +264,38 @@ public final class CauldronInteractions {
 
         return InteractionResult.SUCCESS;
     }
+    private static InteractionResult fillCopperCauldronWithLava(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            ItemStack stack
+    ) {
+        if (state.getValue(CopperCauldronBlock.LAVA)
+                || state.getValue(CopperCauldronBlock.LEVEL) > 0) {
+            return InteractionResult.PASS;
+        }
+
+        if (state.getValue(CopperCauldronBlock.LAVA)) {
+            return InteractionResult.PASS;
+        }
+
+        level.setBlock(
+                pos,
+                state.setValue(CopperCauldronBlock.LEVEL, 0)
+                        .setValue(CopperCauldronBlock.LAVA, true)
+                        .setValue(CopperCauldronBlock.LAVA_WARNING, false),
+                3
+        );
+
+        if (!player.getAbilities().instabuild) {
+            stack.shrink(1);
+            giveOrDrop(player, new ItemStack(Items.BUCKET));
+        }
+
+        return InteractionResult.SUCCESS;
+    }
     private static InteractionResult fillCopperCauldron(
             BlockState state,
             Level level,
@@ -272,6 +304,10 @@ public final class CauldronInteractions {
             InteractionHand hand,
             ItemStack stack
     ) {
+        if (state.getValue(CopperCauldronBlock.LAVA)) {
+            return InteractionResult.PASS;
+        }
+
         level.setBlock(
                 pos,
                 state.setValue(CopperCauldronBlock.LEVEL
@@ -322,6 +358,17 @@ public final class CauldronInteractions {
             InteractionHand hand,
             ItemStack stack
     ) {
+        if (state.getValue(CopperCauldronBlock.LAVA)) {
+            level.setBlock(pos, CauldronColors.COPPER_CAULDRON.defaultBlockState(), 3);
+
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+                giveOrDrop(player, new ItemStack(Items.LAVA_BUCKET));
+            }
+
+            return InteractionResult.SUCCESS;
+        }
+
         if (state.getValue(CopperCauldronBlock.LEVEL) != 3) {
             return InteractionResult.PASS;
         }
