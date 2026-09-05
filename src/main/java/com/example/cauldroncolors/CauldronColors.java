@@ -141,7 +141,8 @@ public class CauldronColors implements ModInitializer {
 				identifier,
 				new CopperCauldronBlock(
 						BlockBehaviour.Properties.ofLegacyCopy(Blocks.CAULDRON)
-								.setId(blockKey)
+								.lightLevel(state -> state.getValue(CopperCauldronBlock.LAVA) ? 15 : 0)
+						.setId(blockKey)
 				)
 		);
 

@@ -15,6 +15,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+
 
 public class ColoredWaterCauldronBlock extends LayeredCauldronBlock {
 
@@ -95,4 +99,17 @@ public class ColoredWaterCauldronBlock extends LayeredCauldronBlock {
             );
         }
     }
+    @Override
+    public void tick(
+            BlockState state,
+            ServerLevel level,
+            BlockPos pos,
+            RandomSource random
+    ) {
+        if (state.getValue(CopperCauldronBlock.LAVA)) {
+            level.destroyBlock(pos, true);
+        }
+    }
+
+
 }

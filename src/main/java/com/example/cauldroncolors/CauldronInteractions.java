@@ -272,7 +272,10 @@ public final class CauldronInteractions {
             InteractionHand hand,
             ItemStack stack
     ) {
-        if (state.getValue(CopperCauldronBlock.LAVA)
+                if (state.getBlock() != CauldronColors.COPPER_CAULDRON) {
+            return InteractionResult.FAIL;
+        }
+if (state.getValue(CopperCauldronBlock.LAVA)
                 || state.getValue(CopperCauldronBlock.LEVEL) > 0) {
             return InteractionResult.PASS;
         }
@@ -288,6 +291,8 @@ public final class CauldronInteractions {
                         .setValue(CopperCauldronBlock.LAVA_WARNING, false),
                 3
         );
+
+        level.scheduleTick(pos, CauldronColors.COPPER_CAULDRON, 80);
 
         if (!player.getAbilities().instabuild) {
             stack.shrink(1);

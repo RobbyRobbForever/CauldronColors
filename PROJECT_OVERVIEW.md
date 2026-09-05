@@ -54,12 +54,10 @@ Important behavior includes:
 - Copper-origin level 1, level 2, and level 3 models are used correctly.
 - Normal colored-water variants use vanilla water-cauldron models.
 - Copper cauldrons accept dye and retain their copper appearance.
-- Egg dyeing works above blocks tagged `minecraft:campfires`.
-- Bucket extraction from full dyed-water cauldrons preserves copper origin.
-- Bucket extraction from full copper cauldrons preserves copper.
 - Water bucket and glass-bottle behavior has been consolidated into shared handlers.
 - All core copper_cauldron interactions function as intended.
-- All core colored_egg and colored_egg_blocks function as intended.
+- All core colored_egg and colored_egg_blocks function as intended. (recently bugged)
+- Colored_Egg_blocks no longer break with a pick axe. They should break as Sandstone. (needs fixed)
 
 ## Recent Code Changes
 
@@ -84,18 +82,19 @@ The copper-specific bottle handler was changed from setting the water level dire
 
 1 - Copper cauldrons accepting lava
 
-A copper cauldron accepts a lava bucket.
-The lava visually occupies the copper cauldron.
-The lava begins a delayed destruction process.
-Flames eventually appear above the cauldron.
+A copper cauldron accepts a lava bucket. (complete)
+The lava visually occupies the copper cauldron. (complete)
+
+The lava begins a delayed destruction process. (complete)
+Flames eventually appear above the cauldron. (complete)
 Shortly afterward:
-The copper cauldron is destroyed.
-A lava source block replaces it.
+The copper cauldron is destroyed. (complete)
+A lava source block replaces it. 
 Warning flames disappear.
 If lava is removed before destruction:
-The cauldron becomes an empty copper cauldron.
-Warning flames stop.
-No lava source block is created.
+The cauldron becomes an empty copper cauldron. (complete)
+Warning flames stop. (complete)
+No lava source block is created. (unable to test)
 Iron cauldron lava behavior must remain unchanged.
 
 - Recommended state design:
@@ -119,7 +118,7 @@ return state.getValue(LAVA)
 || state.getValue(LEVEL) == 3;
 This should be confirmed against the interaction code before changing it.
 
-2 - Delayed destruction
+2 - Delayed destruction (complete)
 Use scheduled block ticks rather than an entity or global timer.
 
 Lava bucket fills the copper cauldron.
@@ -135,10 +134,9 @@ The warning state is still valid.
 Replace the cauldron with a lava source block.
 Do not drop the copper cauldron.
 Every scheduled tick must safely do nothing if lava was removed or the block was replaced.
-
 Do not restart the warning timer on every tick.
 
-3 - Removing lava
+3 - Removing lava (complete)
 Add a copper-specific empty-bucket interaction.
 When lava is removed before destruction.
 
@@ -148,7 +146,7 @@ LEVEL=0
 Return an empty copper cauldron and stop the warning effect.
 Ensure the vanilla iron-cauldron lava bucket and empty-bucket handlers are not modified.
 
-4 - Lava visuals
+4 - Lava visuals (complete)
 Add blockstate variants for the lava states.
 The exact model can be simple initially, but it must not reuse a water model accidentally.
 
