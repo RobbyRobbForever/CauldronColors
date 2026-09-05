@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.cauldroncolors.block.CopperCauldronBlock;
@@ -206,7 +207,7 @@ public class CauldronColors implements ModInitializer {
 				BuiltInRegistries.BLOCK,
 				blockIdentifier,
 				new EggBlock(
-						BlockBehaviour.Properties.ofLegacyCopy(Blocks.SANDSTONE)
+						BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(0.8F)
 								.setId(blockKey)
 				)
 		);

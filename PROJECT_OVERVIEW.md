@@ -57,7 +57,6 @@ Important behavior includes:
 - Water bucket and glass-bottle behavior has been consolidated into shared handlers.
 - All core copper_cauldron interactions function as intended.
 - All core colored_egg and colored_egg_blocks function as intended. (recently bugged)
-- Colored_Egg_blocks no longer break with a pick axe. They should break as Sandstone. (needs fixed)
 
 ## Recent Code Changes
 
@@ -80,7 +79,7 @@ The copper-specific bottle handler was changed from setting the water level dire
 
 ## Future Plans
 
-1 - Copper cauldrons accepting lava
+1 - Copper cauldrons accepting lava (in progress)
 
 A copper cauldron accepts a lava bucket. (complete)
 The lava visually occupies the copper cauldron. (complete)
@@ -89,12 +88,12 @@ The lava begins a delayed destruction process. (complete)
 Flames eventually appear above the cauldron. (complete)
 Shortly afterward:
 The copper cauldron is destroyed. (complete)
-A lava source block replaces it. 
-Warning flames disappear.
+A lava source block replaces it. (pending)
+Warning flames disappear. (pending previous addition)
 If lava is removed before destruction:
 The cauldron becomes an empty copper cauldron. (complete)
 Warning flames stop. (complete)
-No lava source block is created. (unable to test)
+No lava source block is created. (pending previous addition)
 Iron cauldron lava behavior must remain unchanged.
 
 - Recommended state design:
@@ -161,7 +160,7 @@ The cauldron is destroyed.
 The block changes to another state.
 The chunk unloads or reloads.
 
-5 - Lava sound
+5 - Lava sound (pending)
 The copper lava-bucket interaction should play a more dramatic sound than the vanilla lava-bucket sound.
 
 Possible approach:
@@ -214,10 +213,10 @@ Existing mixin configuration
 Existing copper blockstate and model files
 Implement only lava state properties and registration.
 Build and launch.
-Test lava bucket insertion and removal.
-Add scheduled destruction.
-Build and test delayed destruction.
-Add lava models and particles.
+Test lava bucket insertion and removal. (working)
+Add scheduled destruction. (working)
+Build and test delayed destruction. (working)
+Add lava models and particles. (pending)
 Add the dramatic sound.
 Inspect and implement campfire smoke suppression.
 Build and run a focused regression test covering:
