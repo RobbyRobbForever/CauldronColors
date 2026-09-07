@@ -109,12 +109,6 @@ public final class CauldronInteractions {
         interactionMap.map().put(dyeItem, (state, level, pos, player, hand, stack) ->
                 dyeFullCauldron(state, level, pos, player, hand, stack, dyeColor)
         );
-
-        CopperCauldronBlock.INTERACTIONS.map().put(dyeItem,
-                (state, level, pos, player, hand, stack) ->
-                        dyeFullCauldron(state, level, pos, player, hand, stack, dyeColor)
-        );
-
     }
 
     private static InteractionResult dyeFullCauldron(
@@ -126,6 +120,11 @@ public final class CauldronInteractions {
             ItemStack stack,
             DyeColor dyeColor
     ) {
+        if (state.is(CauldronColors.COPPER_CAULDRON)
+                && state.getValue(CopperCauldronBlock.LAVA)) {
+            return InteractionResult.PASS;
+        }
+
         int currentLevel = state.is(CauldronColors.COPPER_CAULDRON)
                 ? state.getValue(CopperCauldronBlock.LEVEL)
                 : state.getValue(LayeredCauldronBlock.LEVEL);
