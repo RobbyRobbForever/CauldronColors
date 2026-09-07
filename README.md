@@ -61,7 +61,7 @@ the `runClient` task.
 CauldronColors is experimental and actively being developed.
 
 The current build includes colored-water cauldrons, copper-origin cauldron
-behavior, dye interactions, egg dyeing, egg blocks, and water bucket and glass bottle
+behavior, dye interactions, egg dyeing, egg blocks, .and water bucket and glass bottle
 interactions.
 
 ## License
