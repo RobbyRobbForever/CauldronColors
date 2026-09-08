@@ -279,14 +279,6 @@ if (state.getValue(CopperCauldronBlock.LAVA)
             return InteractionResult.PASS;
         }
 
-        if (state.getValue(CopperCauldronBlock.LAVA)) {
-            return InteractionResult.PASS;
-        }
-
-        if (state.getValue(CopperCauldronBlock.LEVEL) > 0) {
-            return InteractionResult.FAIL;
-        }
-
         level.setBlock(
                 pos,
                 state.setValue(CopperCauldronBlock.LEVEL, 0)
