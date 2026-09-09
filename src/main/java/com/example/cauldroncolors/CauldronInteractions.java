@@ -99,6 +99,28 @@ public final class CauldronInteractions {
                 Items.LAVA_BUCKET,
                 CauldronInteractions::fillCopperCauldronWithLava
         );
+        CauldronInteraction vanillaWaterLavaInteraction =
+                CauldronInteraction.WATER.map().get(Items.LAVA_BUCKET);
+
+        CauldronInteraction.WATER.map().put(
+                Items.LAVA_BUCKET,
+                (state, level, pos, player, hand, stack) -> {
+                    if (state.hasProperty(ColoredWaterCauldronBlock.COPPER_ORIGIN)) {
+                        return InteractionResult.PASS;
+                    }
+
+                    return vanillaWaterLavaInteraction.interact(
+                            state,
+                            level,
+                            pos,
+                            player,
+                            hand,
+                            stack
+                    );
+                }
+        );
+
+
     }
 
     private static void registerDye(
