@@ -99,17 +99,4 @@ public class ColoredWaterCauldronBlock extends LayeredCauldronBlock {
             );
         }
     }
-    @Override
-    public void tick(
-            BlockState state,
-            ServerLevel level,
-            BlockPos pos,
-            RandomSource random
-    ) {
-        if (state.getValue(CopperCauldronBlock.LAVA)) {
-            level.destroyBlock(pos, true);
-        }
-    }
-
-
 }

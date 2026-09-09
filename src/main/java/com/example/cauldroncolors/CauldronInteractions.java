@@ -592,28 +592,44 @@ private static InteractionOutcome applyFillWaterBottleFromCopperCauldron(
             InteractionHand hand,
             ItemStack stack
     ) {
-        PotionContents potion =
-                stack.get(DataComponents.POTION_CONTENTS);
+        return toInteractionResult(
+                applyUseWaterBottleOnCopperCauldron(
+                        state,
+                        level,
+                        pos,
+                        player,
+                        hand,
+                        stack
+                )
+        );
+    }
+
+    private static InteractionOutcome applyUseWaterBottleOnCopperCauldron(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            ItemStack stack
+    ) {
+        PotionContents potion = stack.get(DataComponents.POTION_CONTENTS);
 
         if (potion == null
                 || potion.potion().isEmpty()
                 || !potion.potion().get().is(Potions.WATER)) {
-            return InteractionResult.PASS;
+            return InteractionOutcome.NOT_APPLICABLE;
         }
 
-        int currentLevel =
-                state.getValue(CopperCauldronBlock.LEVEL
-                );
+        int currentLevel = state.getValue(CopperCauldronBlock.LEVEL);
 
         if (currentLevel >= 3) {
-            return InteractionResult.PASS;
+            return InteractionOutcome.NOT_APPLICABLE;
         }
 
         level.setBlock(
                 pos,
                 state.setValue(
-                        CopperCauldronBlock.LEVEL
-                        ,
+                        CopperCauldronBlock.LEVEL,
                         currentLevel + 1
                 ),
                 3
@@ -624,8 +640,9 @@ private static InteractionOutcome applyFillWaterBottleFromCopperCauldron(
             giveOrDrop(player, new ItemStack(Items.GLASS_BOTTLE));
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionOutcome.APPLIED;
     }
+
 
     private static void giveOrDrop(Player player, ItemStack stack) {
         if (!player.getInventory().add(stack)) {
