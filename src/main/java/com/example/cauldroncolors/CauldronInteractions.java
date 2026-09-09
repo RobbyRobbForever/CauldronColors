@@ -112,64 +112,88 @@ public final class CauldronInteractions {
     }
 
     private static InteractionResult dyeFullCauldron(
-            BlockState state,
-            Level level,
-            BlockPos pos,
-            Player player,
-            InteractionHand hand,
-            ItemStack stack,
-            DyeColor dyeColor
-    ) {
-        if (state.is(CauldronColors.COPPER_CAULDRON)
-                && state.getValue(CopperCauldronBlock.LAVA)) {
-            return InteractionResult.PASS;
-        }
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        ItemStack stack,
+        DyeColor dyeColor
+) {
+    return toInteractionResult(applyDyeFullCauldron(
+            state, level, pos, player, stack, dyeColor
+    ));
+}
 
-        int currentLevel = state.is(CauldronColors.COPPER_CAULDRON)
-                ? state.getValue(CopperCauldronBlock.LEVEL)
-                : state.getValue(LayeredCauldronBlock.LEVEL);
-
-        if ((!state.is(Blocks.WATER_CAULDRON)
-                && !state.is(CauldronColors.COPPER_CAULDRON))
-                || currentLevel != 3) {
-            return InteractionResult.PASS;
-        }
-
-        BlockState coloredState =
-
-                CauldronColors.COLORED_WATER_CAULDRON.defaultBlockState()
-                        .setValue(ColoredWaterCauldronBlock.LEVEL, 3)
-                        .setValue(
-                                ColoredWaterCauldronBlock.COLOR,
-                                CauldronColor.fromDyeColor(dyeColor)
-                        )
-                        .setValue(ColoredWaterCauldronBlock.EGGS_DYED, 0)
-                        .setValue(
-                                ColoredWaterCauldronBlock.COPPER_ORIGIN,
-                                state.is(CauldronColors.COPPER_CAULDRON)
-                        );
-
-        level.setBlock(pos, coloredState, 3);
-
-        if (!level.isClientSide()) {
-            level.playSound(
-                    null,
-                    pos,
-                    getVanillaSound("block.bubble_column.bubble_pop"),
-                    SoundSource.BLOCKS,
-                    3.0F,
-                    1.0F
-            );
-        }
-
-        if (!player.getAbilities().instabuild) {
-            stack.shrink(1);
-        }
-
-        return InteractionResult.SUCCESS;
+private static InteractionOutcome applyDyeFullCauldron(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        ItemStack stack,
+        DyeColor dyeColor
+) {
+    if (state.is(CauldronColors.COPPER_CAULDRON)
+            && state.getValue(CopperCauldronBlock.LAVA)) {
+        return InteractionOutcome.NOT_APPLICABLE;
     }
 
+    int currentLevel = state.is(CauldronColors.COPPER_CAULDRON)
+            ? state.getValue(CopperCauldronBlock.LEVEL)
+            : state.getValue(LayeredCauldronBlock.LEVEL);
+
+    if ((!state.is(Blocks.WATER_CAULDRON)
+            && !state.is(CauldronColors.COPPER_CAULDRON))
+            || currentLevel != 3) {
+        return InteractionOutcome.NOT_APPLICABLE;
+    }
+
+    BlockState coloredState =
+            CauldronColors.COLORED_WATER_CAULDRON.defaultBlockState()
+                    .setValue(ColoredWaterCauldronBlock.LEVEL, 3)
+                    .setValue(
+                            ColoredWaterCauldronBlock.COLOR,
+                            CauldronColor.fromDyeColor(dyeColor)
+                    )
+                    .setValue(ColoredWaterCauldronBlock.EGGS_DYED, 0)
+                    .setValue(
+                            ColoredWaterCauldronBlock.COPPER_ORIGIN,
+                            state.is(CauldronColors.COPPER_CAULDRON)
+                    );
+
+    level.setBlock(pos, coloredState, 3);
+
+    if (!level.isClientSide()) {
+        level.playSound(
+                null,
+                pos,
+                getVanillaSound("block.bubble_column.bubble_pop"),
+                SoundSource.BLOCKS,
+                3.0F,
+                1.0F
+        );
+    }
+
+    if (!player.getAbilities().instabuild) {
+        stack.shrink(1);
+    }
+
+    return InteractionOutcome.APPLIED;
+}
+
     private static InteractionResult dyeEgg(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        ItemStack stack
+) {
+    return toInteractionResult(applyDyeEgg(
+            state, level, pos, player, hand, stack
+    ));
+}
+private static InteractionOutcome applyDyeEgg(
             BlockState state,
             Level level,
             BlockPos pos,
@@ -178,18 +202,18 @@ public final class CauldronInteractions {
             ItemStack stack
     ) {
         if (!state.is(CauldronColors.COLORED_WATER_CAULDRON)) {
-            return InteractionResult.PASS;
+            return InteractionOutcome.NOT_APPLICABLE;
         }
 
         // Eggs can only be dyed above a normal or soul campfire.
         if (!level.getBlockState(pos.below()).is(BlockTags.CAMPFIRES)) {
-            return InteractionResult.PASS;
+            return InteractionOutcome.NOT_APPLICABLE;
         }
 
         int eggsDyed = state.getValue(ColoredWaterCauldronBlock.EGGS_DYED);
 
         if (eggsDyed >= 16) {
-            return InteractionResult.PASS;
+            return InteractionOutcome.NOT_APPLICABLE;
         }
 
         Item resultItem = switch (state.getValue(ColoredWaterCauldronBlock.COLOR)) {
@@ -261,73 +285,128 @@ public final class CauldronInteractions {
             player.drop(output, false);
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionOutcome.APPLIED;
     }
-    private static InteractionResult fillCopperCauldronWithLava(
-            BlockState state,
-            Level level,
-            BlockPos pos,
-            Player player,
-            InteractionHand hand,
-            ItemStack stack
-    ) {
-                if (state.getBlock() != CauldronColors.COPPER_CAULDRON) {
-            return InteractionResult.FAIL;
-        }
-if (state.getValue(CopperCauldronBlock.LAVA)
-                || state.getValue(CopperCauldronBlock.LEVEL) > 0) {
-            return InteractionResult.PASS;
-        }
+    private enum InteractionOutcome {
+    APPLIED,
+    NOT_APPLICABLE,
+    BLOCKED
+}
 
-        level.setBlock(
-                pos,
-                state.setValue(CopperCauldronBlock.LEVEL, 0)
-                        .setValue(CopperCauldronBlock.LAVA, true)
-                        .setValue(CopperCauldronBlock.LAVA_WARNING, false),
-                3
-        );
+private static InteractionResult toInteractionResult(InteractionOutcome outcome) {
+    return switch (outcome) {
+        case APPLIED -> InteractionResult.SUCCESS;
+        case NOT_APPLICABLE -> InteractionResult.PASS;
+        case BLOCKED -> InteractionResult.FAIL;
+    };
+}
 
-        level.scheduleTick(pos, CauldronColors.COPPER_CAULDRON, 80);
+private static InteractionResult fillCopperCauldronWithLava(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        ItemStack stack
+) {
+    return toInteractionResult(applyCopperCauldronWithLava(
+            state, level, pos, player, stack
+    ));
+}
 
-        if (!player.getAbilities().instabuild) {
-            stack.shrink(1);
-            giveOrDrop(player, new ItemStack(Items.BUCKET));
-        }
-
-        return InteractionResult.SUCCESS;
+private static InteractionOutcome applyCopperCauldronWithLava(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        ItemStack stack
+) {
+    if (state.getBlock() != CauldronColors.COPPER_CAULDRON) {
+        return InteractionOutcome.BLOCKED;
     }
-    private static InteractionResult fillCopperCauldron(
-            BlockState state,
-            Level level,
-            BlockPos pos,
-            Player player,
-            InteractionHand hand,
-            ItemStack stack
-    ) {
-        if (state.getValue(CopperCauldronBlock.LAVA)) {
-            return InteractionResult.PASS;
-        }
 
-        if (state.getValue(CopperCauldronBlock.LEVEL) > 0) {
-            return InteractionResult.FAIL;
-        }
-
-        level.setBlock(
-                pos,
-                state.setValue(CopperCauldronBlock.LEVEL
-                        , 3),
-                3
-        );
-
-        if (!player.getAbilities().instabuild) {
-            stack.shrink(1);
-            giveOrDrop(player, new ItemStack(Items.BUCKET));
-        }
-
-        return InteractionResult.SUCCESS;
+    if (state.getValue(CopperCauldronBlock.LAVA)
+            || state.getValue(CopperCauldronBlock.LEVEL) > 0) {
+        return InteractionOutcome.NOT_APPLICABLE;
     }
+
+    level.setBlock(
+            pos,
+            state.setValue(CopperCauldronBlock.LEVEL, 0)
+                    .setValue(CopperCauldronBlock.LAVA, true)
+                    .setValue(CopperCauldronBlock.LAVA_WARNING, false),
+            3
+    );
+
+    level.scheduleTick(pos, CauldronColors.COPPER_CAULDRON, 80);
+
+    if (!player.getAbilities().instabuild) {
+        stack.shrink(1);
+        giveOrDrop(player, new ItemStack(Items.BUCKET));
+    }
+
+    return InteractionOutcome.APPLIED;
+}
+
+private static InteractionResult fillCopperCauldron(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        ItemStack stack
+) {
+    return toInteractionResult(applyCopperCauldron(
+            state, level, pos, player, stack
+    ));
+}
+
+private static InteractionOutcome applyCopperCauldron(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        ItemStack stack
+) {
+    if (state.getBlock() != CauldronColors.COPPER_CAULDRON) {
+        return InteractionOutcome.BLOCKED;
+    }
+
+    if (state.getValue(CopperCauldronBlock.LAVA)) {
+        return InteractionOutcome.NOT_APPLICABLE;
+    }
+
+    if (state.getValue(CopperCauldronBlock.LEVEL) > 0) {
+        return InteractionOutcome.BLOCKED;
+    }
+
+    level.setBlock(
+            pos,
+            state.setValue(CopperCauldronBlock.LEVEL, 3),
+            3
+    );
+
+    if (!player.getAbilities().instabuild) {
+        stack.shrink(1);
+        giveOrDrop(player, new ItemStack(Items.BUCKET));
+    }
+
+    return InteractionOutcome.APPLIED;
+}
 
     private static InteractionResult emptyWaterCauldron(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        ItemStack stack
+) {
+    return toInteractionResult(applyEmptyWaterCauldron(
+            state, level, pos, player, hand, stack
+    ));
+}
+private static InteractionOutcome applyEmptyWaterCauldron(
             BlockState state,
             Level level,
             BlockPos pos,
@@ -336,7 +415,7 @@ if (state.getValue(CopperCauldronBlock.LAVA)
             ItemStack stack
     ) {
         if (state.getValue(LayeredCauldronBlock.LEVEL) != 3) {
-            return InteractionResult.PASS;
+            return InteractionOutcome.NOT_APPLICABLE;
         }
 
         BlockState emptyCauldron =
@@ -352,9 +431,21 @@ if (state.getValue(CopperCauldronBlock.LAVA)
             giveOrDrop(player, new ItemStack(Items.WATER_BUCKET));
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionOutcome.APPLIED;
     }
     private static InteractionResult emptyCopperCauldron(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        ItemStack stack
+) {
+    return toInteractionResult(applyEmptyCopperCauldron(
+            state, level, pos, player, hand, stack
+    ));
+}
+private static InteractionOutcome applyEmptyCopperCauldron(
             BlockState state,
             Level level,
             BlockPos pos,
@@ -370,11 +461,11 @@ if (state.getValue(CopperCauldronBlock.LAVA)
                 giveOrDrop(player, new ItemStack(Items.LAVA_BUCKET));
             }
 
-            return InteractionResult.SUCCESS;
+            return InteractionOutcome.APPLIED;
         }
 
         if (state.getValue(CopperCauldronBlock.LEVEL) != 3) {
-            return InteractionResult.PASS;
+            return InteractionOutcome.NOT_APPLICABLE;
         }
         int currentLevel =
                 state.getValue(CopperCauldronBlock.LEVEL
@@ -395,10 +486,22 @@ if (state.getValue(CopperCauldronBlock.LAVA)
             giveOrDrop(player, new ItemStack(Items.WATER_BUCKET));
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionOutcome.APPLIED;
     }
 
     private static InteractionResult fillWaterBottleFromWaterCauldron(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        ItemStack stack
+) {
+    return toInteractionResult(applyFillWaterBottleFromWaterCauldron(
+            state, level, pos, player, hand, stack
+    ));
+}
+private static InteractionOutcome applyFillWaterBottleFromWaterCauldron(
             BlockState state,
             Level level,
             BlockPos pos,
@@ -409,7 +512,7 @@ if (state.getValue(CopperCauldronBlock.LAVA)
         int currentLevel = state.getValue(LayeredCauldronBlock.LEVEL);
 
         if (currentLevel <= 0) {
-            return InteractionResult.PASS;
+            return InteractionOutcome.NOT_APPLICABLE;
         }
 
         BlockState newState =
@@ -433,9 +536,21 @@ if (state.getValue(CopperCauldronBlock.LAVA)
             );
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionOutcome.APPLIED;
     }
     private static InteractionResult fillWaterBottleFromCopperCauldron(
+        BlockState state,
+        Level level,
+        BlockPos pos,
+        Player player,
+        InteractionHand hand,
+        ItemStack stack
+) {
+    return toInteractionResult(applyFillWaterBottleFromCopperCauldron(
+            state, level, pos, player, hand, stack
+    ));
+}
+private static InteractionOutcome applyFillWaterBottleFromCopperCauldron(
             BlockState state,
             Level level,
             BlockPos pos,
@@ -447,7 +562,7 @@ if (state.getValue(CopperCauldronBlock.LAVA)
                 state.getValue(CopperCauldronBlock.LEVEL);
 
         if (currentLevel <= 0) {
-            return InteractionResult.PASS;
+            return InteractionOutcome.NOT_APPLICABLE;
         }
 
         level.setBlock(
@@ -467,7 +582,7 @@ if (state.getValue(CopperCauldronBlock.LAVA)
             );
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionOutcome.APPLIED;
     }
     private static InteractionResult useWaterBottleOnCopperCauldron(
             BlockState state,
