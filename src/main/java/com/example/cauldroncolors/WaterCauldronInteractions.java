@@ -1,15 +1,12 @@
 package com.example.cauldroncolors;
 
-import com.example.cauldroncolors.block.CauldronColor;
+import com.example.cauldroncolors.CauldronInteractionUtil.InteractionOutcome;
+import static com.example.cauldroncolors.CauldronInteractionUtil.giveOrDrop;
+import static com.example.cauldroncolors.CauldronInteractionUtil.toInteractionResult;
+
 import com.example.cauldroncolors.block.ColoredWaterCauldronBlock;
-import com.example.cauldroncolors.block.CopperCauldronBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -21,11 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
-import static com.example.cauldroncolors.CauldronInteractionUtil.*;
-import com.example.cauldroncolors.CauldronInteractionUtil.InteractionOutcome;
 
 public final class WaterCauldronInteractions {
     private WaterCauldronInteractions() {
