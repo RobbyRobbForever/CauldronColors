@@ -3,7 +3,7 @@
 	"package": "com.example.cauldroncolors.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"CampfireBlockMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
