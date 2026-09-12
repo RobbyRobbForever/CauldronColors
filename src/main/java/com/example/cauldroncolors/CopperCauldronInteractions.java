@@ -295,6 +295,10 @@ private static InteractionOutcome applyFillWaterBottleFromCopperCauldron(
             return InteractionOutcome.NOT_APPLICABLE;
         }
 
+
+        if (state.getValue(CopperCauldronBlock.LAVA)) {
+            return InteractionOutcome.BLOCKED;
+        }
         int currentLevel = state.getValue(CopperCauldronBlock.LEVEL);
 
         if (currentLevel >= 3) {
