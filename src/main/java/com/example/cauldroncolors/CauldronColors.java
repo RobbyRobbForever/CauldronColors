@@ -29,7 +29,7 @@ public class CauldronColors implements ModInitializer {
 			LoggerFactory.getLogger(MOD_ID);
 
 	public static final Block COLORED_WATER_CAULDRON =
-			registerBlock("colored_water_cauldron");
+			registerBlock();
 
 	public static final Block COPPER_CAULDRON =
 			registerCopperCauldron();
@@ -141,9 +141,9 @@ public class CauldronColors implements ModInitializer {
 				BuiltInRegistries.BLOCK,
 				identifier,
 				new CopperCauldronBlock(
-						BlockBehaviour.Properties.ofLegacyCopy(Blocks.CAULDRON)
+						BlockBehaviour.Properties.ofFullCopy(Blocks.CAULDRON)
 								.lightLevel(state -> state.getValue(CopperCauldronBlock.LAVA) ? 15 : 0)
-						.setId(blockKey)
+								.setId(blockKey)
 				)
 		);
 
@@ -181,8 +181,8 @@ public class CauldronColors implements ModInitializer {
 		);
 	}
 
-	private static Block registerBlock(String name) {
-		Identifier identifier = id(name);
+	private static Block registerBlock() {
+		Identifier identifier = id("colored_water_cauldron");
 
 		ResourceKey<Block> blockKey =
 				ResourceKey.create(Registries.BLOCK, identifier);
@@ -191,7 +191,7 @@ public class CauldronColors implements ModInitializer {
 				BuiltInRegistries.BLOCK,
 				identifier,
 				new ColoredWaterCauldronBlock(
-						BlockBehaviour.Properties.ofLegacyCopy(Blocks.CAULDRON)
+						BlockBehaviour.Properties.ofFullCopy(Blocks.CAULDRON)
 								.setId(blockKey)
 				)
 		);

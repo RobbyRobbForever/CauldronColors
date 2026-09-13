@@ -6,18 +6,14 @@ import com.example.cauldroncolors.CauldronInteractionUtil.InteractionOutcome;
 
 import com.example.cauldroncolors.block.CopperCauldronBlock;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -189,9 +185,6 @@ private static InteractionOutcome applyEmptyCopperCauldron(
         if (state.getValue(CopperCauldronBlock.LEVEL) != 3) {
             return InteractionOutcome.NOT_APPLICABLE;
         }
-        int currentLevel =
-                state.getValue(CopperCauldronBlock.LEVEL
-                );
 
         level.setBlock(
                 pos,
@@ -291,10 +284,9 @@ private static InteractionOutcome applyFillWaterBottleFromCopperCauldron(
 
         if (potion == null
                 || potion.potion().isEmpty()
-                || !potion.potion().get().is(Potions.WATER)) {
+                || !potion.potion().get().is(Potions.WATER.unwrapKey().orElseThrow())) {
             return InteractionOutcome.NOT_APPLICABLE;
         }
-
 
         if (state.getValue(CopperCauldronBlock.LAVA)) {
             return InteractionOutcome.BLOCKED;
