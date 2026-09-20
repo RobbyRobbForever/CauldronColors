@@ -26,7 +26,7 @@ public class ColoredWaterCauldronBlock extends LayeredCauldronBlock {
             EnumProperty.create("color", CauldronColor.class);
 
     public static final IntegerProperty EGGS_DYED =
-            IntegerProperty.create("eggs_dyed", 0, 16);
+            IntegerProperty.create("eggs_dyed", 0, 64);
 
     public static final BooleanProperty COPPER_ORIGIN =
             BooleanProperty.create("copper_origin");

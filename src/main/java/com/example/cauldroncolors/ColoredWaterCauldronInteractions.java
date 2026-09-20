@@ -158,7 +158,7 @@ private static InteractionOutcome applyDyeEgg(
 
         int eggsDyed = state.getValue(ColoredWaterCauldronBlock.EGGS_DYED);
 
-        if (eggsDyed >= 16) {
+        if (eggsDyed >= 64) {
             return InteractionOutcome.NOT_APPLICABLE;
         }
 
@@ -183,7 +183,7 @@ private static InteractionOutcome applyDyeEgg(
 
         int newEggCount = eggsDyed + 1;
 
-        if (newEggCount == 16) {
+        if (newEggCount == 64) {
             BlockState emptyCauldron =
                     state.getValue(ColoredWaterCauldronBlock.COPPER_ORIGIN)
                             ? CauldronColors.COPPER_CAULDRON.defaultBlockState()
@@ -194,9 +194,9 @@ private static InteractionOutcome applyDyeEgg(
         } else {
             int newLevel;
 
-            if (newEggCount <= 4) {
+            if (newEggCount <= 16) {
                 newLevel = 3;
-            } else if (newEggCount <= 9) {
+            } else if (newEggCount <= 32) {
                 newLevel = 2;
             } else {
                 newLevel = 1;
