@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:cauldron"
+          "name": "cauldroncolors:copper_cauldron"
         }
       ],
       "conditions": [

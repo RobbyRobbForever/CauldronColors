@@ -29,7 +29,10 @@ public class CauldronColors implements ModInitializer {
 			LoggerFactory.getLogger(MOD_ID);
 
 	public static final Block COLORED_WATER_CAULDRON =
-			registerBlock();
+			registerBlock("colored_water_cauldron");
+
+	public static final Block COPPER_COLORED_WATER_CAULDRON =
+			registerBlock("copper_colored_water_cauldron");
 
 	public static final Block COPPER_CAULDRON =
 			registerCopperCauldron();
@@ -181,8 +184,8 @@ public class CauldronColors implements ModInitializer {
 		);
 	}
 
-	private static Block registerBlock() {
-		Identifier identifier = id("colored_water_cauldron");
+	private static Block registerBlock(String name) {
+		Identifier identifier = id(name);
 
 		ResourceKey<Block> blockKey =
 				ResourceKey.create(Registries.BLOCK, identifier);

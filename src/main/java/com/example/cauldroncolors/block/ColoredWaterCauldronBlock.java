@@ -27,11 +27,7 @@ public class ColoredWaterCauldronBlock extends LayeredCauldronBlock {
 
     public static final IntegerProperty EGGS_DYED =
             IntegerProperty.create("eggs_dyed", 0, 64);
-
-    public static final BooleanProperty COPPER_ORIGIN =
-            BooleanProperty.create("copper_origin");
-
-    public ColoredWaterCauldronBlock(BlockBehaviour.Properties properties) {
+public ColoredWaterCauldronBlock(BlockBehaviour.Properties properties) {
         super(
                 Biome.Precipitation.RAIN,
                 CauldronInteraction.WATER,
@@ -42,7 +38,6 @@ public class ColoredWaterCauldronBlock extends LayeredCauldronBlock {
                 this.defaultBlockState()
                         .setValue(COLOR, CauldronColor.TRUE_BLUE)
                         .setValue(EGGS_DYED, 0)
-                        .setValue(COPPER_ORIGIN, false)
                         .setValue(LEVEL, 3)
         );
     }
@@ -52,7 +47,7 @@ public class ColoredWaterCauldronBlock extends LayeredCauldronBlock {
             StateDefinition.Builder<Block, BlockState> builder
     ) {
         super.createBlockStateDefinition(builder);
-        builder.add(COLOR, EGGS_DYED, COPPER_ORIGIN);
+        builder.add(COLOR, EGGS_DYED);
     }
 
     @Override

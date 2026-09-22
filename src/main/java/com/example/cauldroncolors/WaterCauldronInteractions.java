@@ -62,7 +62,7 @@ public final class WaterCauldronInteractions {
         CauldronInteraction.WATER.map().put(
                 Items.LAVA_BUCKET,
                 (state, level, pos, player, hand, stack) -> {
-                    if (state.hasProperty(ColoredWaterCauldronBlock.COPPER_ORIGIN)) {
+                    if (state.is(CauldronColors.COLORED_WATER_CAULDRON) || state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)) {
                         return InteractionResult.PASS;
                     }
 
@@ -104,8 +104,7 @@ private static InteractionOutcome applyEmptyWaterCauldron(
         }
 
         BlockState emptyCauldron =
-                state.is(CauldronColors.COLORED_WATER_CAULDRON)
-                        && state.getValue(ColoredWaterCauldronBlock.COPPER_ORIGIN)
+                state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)
                 ? CauldronColors.COPPER_CAULDRON.defaultBlockState()
                 : Blocks.CAULDRON.defaultBlockState();
 
@@ -148,8 +147,7 @@ private static InteractionOutcome applyFillWaterBottleFromWaterCauldron(
 
         BlockState newState =
                 currentLevel == 1
-                        ? (state.is(CauldronColors.COLORED_WATER_CAULDRON)
-                        && state.getValue(ColoredWaterCauldronBlock.COPPER_ORIGIN)
+                        ? (state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)
                         ? CauldronColors.COPPER_CAULDRON.defaultBlockState()
                         : Blocks.CAULDRON.defaultBlockState())
                         : state.setValue(

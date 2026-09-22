@@ -94,17 +94,13 @@ private static InteractionOutcome applyDyeFullCauldron(
     }
 
     BlockState coloredState =
-            CauldronColors.COLORED_WATER_CAULDRON.defaultBlockState()
+            (state.is(CauldronColors.COPPER_CAULDRON) ? CauldronColors.COPPER_COLORED_WATER_CAULDRON : CauldronColors.COLORED_WATER_CAULDRON).defaultBlockState()
                     .setValue(ColoredWaterCauldronBlock.LEVEL, 3)
                     .setValue(
                             ColoredWaterCauldronBlock.COLOR,
                             CauldronColor.fromDyeColor(dyeColor)
                     )
-                    .setValue(ColoredWaterCauldronBlock.EGGS_DYED, 0)
-                    .setValue(
-                            ColoredWaterCauldronBlock.COPPER_ORIGIN,
-                            state.is(CauldronColors.COPPER_CAULDRON)
-                    );
+                    .setValue(ColoredWaterCauldronBlock.EGGS_DYED, 0);
 
     level.setBlock(pos, coloredState, 3);
 
@@ -147,7 +143,7 @@ private static InteractionOutcome applyDyeEgg(
             InteractionHand hand,
             ItemStack stack
     ) {
-        if (!state.is(CauldronColors.COLORED_WATER_CAULDRON)) {
+        if (!state.is(CauldronColors.COLORED_WATER_CAULDRON) && !state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)) {
             return InteractionOutcome.NOT_APPLICABLE;
         }
 
@@ -185,7 +181,7 @@ private static InteractionOutcome applyDyeEgg(
 
         if (newEggCount == 64) {
             BlockState emptyCauldron =
-                    state.getValue(ColoredWaterCauldronBlock.COPPER_ORIGIN)
+                    state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)
                             ? CauldronColors.COPPER_CAULDRON.defaultBlockState()
                             : Blocks.CAULDRON.defaultBlockState();
 

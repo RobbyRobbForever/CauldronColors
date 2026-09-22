@@ -30,6 +30,7 @@ public abstract class CampfireBlockMixin {
 
         if (blockAbove.is(BlockTags.CAULDRONS)
                 || blockAbove.is(CauldronColors.COLORED_WATER_CAULDRON)
+                || blockAbove.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)
                 || (isCopperCauldron && !isLavaFilledCopperCauldron)) {
             callbackInfo.cancel();
         }

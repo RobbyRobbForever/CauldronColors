@@ -1,6 +1,7 @@
 {
     "replace":  false,
     "values":  [
-                   "cauldroncolors:colored_water_cauldron"
+                   "cauldroncolors:colored_water_cauldron",
+                   "cauldroncolors:copper_colored_water_cauldron"
                ]
 }
