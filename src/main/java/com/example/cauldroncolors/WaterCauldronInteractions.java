@@ -42,6 +42,26 @@ public final class WaterCauldronInteractions {
         ColoredWaterCauldronInteractions.registerDye(CauldronInteraction.WATER, Items.RED_DYE, DyeColor.RED);
         ColoredWaterCauldronInteractions.registerDye(CauldronInteraction.WATER, Items.BLACK_DYE, DyeColor.BLACK);
 
+        CauldronInteraction vanillaWaterBucketInteraction = CauldronInteraction.WATER.map().get(Items.WATER_BUCKET);
+
+        CauldronInteraction.WATER.map().put(
+                Items.WATER_BUCKET,
+                (state, level, pos, player, hand, stack) -> {
+                    if (state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)) {
+                        if (state.getValue(LayeredCauldronBlock.LEVEL) == 3) {
+                            return InteractionResult.FAIL;
+                        }
+                        level.setBlock(pos, state.setValue(LayeredCauldronBlock.LEVEL, 3), 3);
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                            giveOrDrop(player, new ItemStack(Items.BUCKET));
+                        }
+                        return InteractionResult.SUCCESS;
+                    }
+                    return vanillaWaterBucketInteraction.interact(state, level, pos, player, hand, stack);
+                }
+        );
+
         CauldronInteraction.WATER.map().put(
                 Items.BUCKET,
                 WaterCauldronInteractions::emptyWaterCauldron
@@ -168,3 +188,6 @@ private static InteractionOutcome applyFillWaterBottleFromWaterCauldron(
         return InteractionOutcome.APPLIED;
     }
 }
+
+
+
