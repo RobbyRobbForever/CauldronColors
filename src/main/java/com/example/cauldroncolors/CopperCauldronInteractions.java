@@ -132,7 +132,7 @@ private static InteractionOutcome applyCopperCauldron(
         return InteractionOutcome.NOT_APPLICABLE;
     }
 
-    if (state.getValue(CopperCauldronBlock.LEVEL) > 0) {
+    if (state.getValue(CopperCauldronBlock.LEVEL) == 3) {
         return InteractionOutcome.BLOCKED;
     }
 
@@ -314,5 +314,6 @@ private static InteractionOutcome applyFillWaterBottleFromCopperCauldron(
         return InteractionOutcome.APPLIED;
     }
 }
+
 
 
