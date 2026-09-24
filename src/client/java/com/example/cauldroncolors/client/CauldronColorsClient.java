@@ -16,8 +16,9 @@ public class CauldronColorsClient implements ClientModInitializer {
         );
 
         ColorProviderRegistry.BLOCK.register(
-            (state, world, pos, tintIndex) -> 0x3F76E4,
-            CauldronColors.COPPER_CAULDRON
+            (state, world, pos, tintIndex) ->
+                getColor(state.getValue(ColoredWaterCauldronBlock.COLOR)),
+            CauldronColors.COPPER_COLORED_WATER_CAULDRON
         );
     }
 
