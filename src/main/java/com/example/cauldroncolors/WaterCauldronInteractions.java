@@ -49,7 +49,7 @@ public final class WaterCauldronInteractions {
                 (state, level, pos, player, hand, stack) -> {
                     if (state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON) || state.is(CauldronColors.COLORED_WATER_CAULDRON)) {
                         if (state.getValue(LayeredCauldronBlock.LEVEL) == 3) {
-                            return InteractionResult.FAIL;
+                            return InteractionResult.CONSUME;
                         }
                         level.setBlock(pos, state.setValue(LayeredCauldronBlock.LEVEL, 3).setValue(com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED, 0), 3);
                         if (!player.getAbilities().instabuild) {
@@ -192,6 +192,7 @@ private static InteractionOutcome applyFillWaterBottleFromWaterCauldron(
         return InteractionOutcome.APPLIED;
     }
 }
+
 
 
 

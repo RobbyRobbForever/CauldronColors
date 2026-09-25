@@ -23,7 +23,7 @@ public final class CauldronInteractionUtil {
         return switch (outcome) {
             case APPLIED -> InteractionResult.SUCCESS;
             case NOT_APPLICABLE -> InteractionResult.PASS;
-            case BLOCKED -> InteractionResult.FAIL;
+            case BLOCKED -> InteractionResult.CONSUME;
         };
     }
 
