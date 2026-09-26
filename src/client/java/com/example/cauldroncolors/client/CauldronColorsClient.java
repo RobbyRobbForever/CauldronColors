@@ -4,11 +4,18 @@ import com.example.cauldroncolors.CauldronColors;
 import com.example.cauldroncolors.block.CauldronColor;
 import com.example.cauldroncolors.block.ColoredWaterCauldronBlock;
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.renderer.BiomeColors;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 
 public class CauldronColorsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        ColorProviderRegistry.BLOCK.register(
+            (state, world, pos, tintIndex) ->
+                world == null || pos == null ? 0x3F76E4 : BiomeColors.getAverageWaterColor(world, pos),
+            CauldronColors.COPPER_CAULDRON
+        );
+
         ColorProviderRegistry.BLOCK.register(
             (state, world, pos, tintIndex) ->
                 getColor(state.getValue(ColoredWaterCauldronBlock.COLOR)),
@@ -25,10 +32,10 @@ public class CauldronColorsClient implements ClientModInitializer {
     private static int getColor(CauldronColor color) {
         return switch (color) {
             case WHITE -> 0xFFFFFF;
-            case TRUE_BLUE -> 0x3F76E4;
+            case TRUE_BLUE -> 0x2455B8;
             case TRUE_BROWN -> 0x835432;
             case MAGENTA -> 0xC74EBD;
-            case LIGHT_BLUE -> 0x3AB3DA;
+            case LIGHT_BLUE -> 0x5FA8FF;
             case YELLOW -> 0xFED83D;
             case LIME -> 0x80C71F;
             case PINK -> 0xF38BAA;
