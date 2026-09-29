@@ -30,6 +30,11 @@ public final class CopperCauldronInteractions {
         );
 
         CopperCauldronBlock.INTERACTIONS.map().put(
+                Items.POWDER_SNOW_BUCKET,
+                CopperCauldronInteractions::fillCopperCauldronWithPowderSnow
+        );
+
+        CopperCauldronBlock.INTERACTIONS.map().put(
                 Items.BUCKET,
                 CopperCauldronInteractions::emptyCopperCauldron
         );
@@ -81,8 +86,7 @@ private static InteractionOutcome applyCopperCauldronWithLava(
         return InteractionOutcome.BLOCKED;
     }
 
-    if (state.getValue(CopperCauldronBlock.LAVA)
-            || state.getValue(CopperCauldronBlock.LEVEL) > 0) {
+    if (state.getValue(CopperCauldronBlock.LAVA) || state.getValue(CopperCauldronBlock.SNOW) || state.getValue(CopperCauldronBlock.LEVEL) > 0) {
         return InteractionOutcome.NOT_APPLICABLE;
     }
 
@@ -90,6 +94,7 @@ private static InteractionOutcome applyCopperCauldronWithLava(
             pos,
             state.setValue(CopperCauldronBlock.LEVEL, 0)
                     .setValue(CopperCauldronBlock.LAVA, true)
+                    .setValue(CopperCauldronBlock.SNOW, false)
                     .setValue(CopperCauldronBlock.LAVA_WARNING, false),
             3
     );
@@ -104,6 +109,20 @@ private static InteractionOutcome applyCopperCauldronWithLava(
     return InteractionOutcome.APPLIED;
 }
 
+private static InteractionResult fillCopperCauldronWithPowderSnow(
+        BlockState state, Level level, BlockPos pos, Player player,
+        InteractionHand hand, ItemStack stack
+) {
+    if (state.getBlock() != CauldronColors.COPPER_CAULDRON || state.getValue(CopperCauldronBlock.LAVA) || state.getValue(CopperCauldronBlock.SNOW) || state.getValue(CopperCauldronBlock.LEVEL) != 0) {
+        return InteractionResult.PASS;
+    }
+    level.setBlock(pos, state.setValue(CopperCauldronBlock.SNOW, true).setValue(CopperCauldronBlock.LEVEL, 3), 3);
+    if (!player.getAbilities().instabuild) {
+        stack.shrink(1);
+        giveOrDrop(player, new ItemStack(Items.BUCKET));
+    }
+    return InteractionResult.CONSUME;
+}
 private static InteractionResult fillCopperCauldron(
         BlockState state,
         Level level,
@@ -128,7 +147,7 @@ private static InteractionOutcome applyCopperCauldron(
         return InteractionOutcome.BLOCKED;
     }
 
-    if (state.getValue(CopperCauldronBlock.LAVA)) {
+    if (state.getValue(CopperCauldronBlock.LAVA) || state.getValue(CopperCauldronBlock.SNOW)) {
         return InteractionOutcome.NOT_APPLICABLE;
     }
 
@@ -138,7 +157,8 @@ private static InteractionOutcome applyCopperCauldron(
 
     level.setBlock(
             pos,
-            state.setValue(CopperCauldronBlock.LEVEL, 3),
+            state.setValue(CopperCauldronBlock.LEVEL, 3)
+                    .setValue(CopperCauldronBlock.SNOW, false),
             3
     );
 
@@ -171,7 +191,15 @@ private static InteractionOutcome applyEmptyCopperCauldron(
             InteractionHand hand,
             ItemStack stack
     ) {
-        if (state.getValue(CopperCauldronBlock.LAVA)) {
+        if (state.getValue(CopperCauldronBlock.SNOW) && !state.getValue(CopperCauldronBlock.LAVA)) {
+            level.setBlock(pos, state.setValue(CopperCauldronBlock.SNOW, false).setValue(CopperCauldronBlock.LAVA, false).setValue(CopperCauldronBlock.LAVA_WARNING, false).setValue(CopperCauldronBlock.LEVEL, 0), 3);
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+                giveOrDrop(player, new ItemStack(Items.POWDER_SNOW_BUCKET));
+            }
+            return InteractionOutcome.APPLIED;
+        }
+        if (state.getValue(CopperCauldronBlock.LAVA) || state.getValue(CopperCauldronBlock.SNOW)) {
             level.setBlock(pos, CauldronColors.COPPER_CAULDRON.defaultBlockState(), 3);
 
             if (!player.getAbilities().instabuild) {
@@ -227,6 +255,10 @@ private static InteractionOutcome applyFillWaterBottleFromCopperCauldron(
     ) {
         int currentLevel =
                 state.getValue(CopperCauldronBlock.LEVEL);
+
+        if (state.getValue(CopperCauldronBlock.LAVA) || state.getValue(CopperCauldronBlock.SNOW)) {
+            return InteractionOutcome.NOT_APPLICABLE;
+        }
 
         if (currentLevel <= 0) {
             return InteractionOutcome.NOT_APPLICABLE;
@@ -288,7 +320,7 @@ private static InteractionOutcome applyFillWaterBottleFromCopperCauldron(
             return InteractionOutcome.NOT_APPLICABLE;
         }
 
-        if (state.getValue(CopperCauldronBlock.LAVA)) {
+        if (state.getValue(CopperCauldronBlock.LAVA) || state.getValue(CopperCauldronBlock.SNOW)) {
             return InteractionOutcome.BLOCKED;
         }
         int currentLevel = state.getValue(CopperCauldronBlock.LEVEL);
@@ -314,6 +346,11 @@ private static InteractionOutcome applyFillWaterBottleFromCopperCauldron(
         return InteractionOutcome.APPLIED;
     }
 }
+
+
+
+
+
 
 
 

@@ -28,6 +28,9 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
     public static final BooleanProperty LAVA =
             BooleanProperty.create("lava");
 
+    public static final BooleanProperty SNOW =
+            BooleanProperty.create("snow");
+
     public static final BooleanProperty LAVA_WARNING =
             BooleanProperty.create("lava_warning");
 
@@ -44,6 +47,7 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
                 this.defaultBlockState()
                         .setValue(LEVEL, 0)
                         .setValue(LAVA, false)
+                        .setValue(SNOW, false)
                         .setValue(LAVA_WARNING, false)
         );
     }
@@ -62,7 +66,7 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
     protected void createBlockStateDefinition(
             StateDefinition.Builder<Block, BlockState> builder
     ) {
-        builder.add(LEVEL, LAVA, LAVA_WARNING);
+        builder.add(LEVEL, LAVA, SNOW, LAVA_WARNING);
     }
 
     @Override
@@ -116,3 +120,4 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
             );
         }
     }}
+
