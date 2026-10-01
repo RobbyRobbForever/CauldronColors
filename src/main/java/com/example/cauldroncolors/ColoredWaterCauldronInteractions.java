@@ -190,9 +190,9 @@ private static InteractionOutcome applyDyeEgg(
         } else {
             int newLevel;
 
-            if (newEggCount <= 16) {
+            if (newEggCount < 16) {
                 newLevel = 3;
-            } else if (newEggCount <= 32) {
+            } else if (newEggCount < 32) {
                 newLevel = 2;
             } else {
                 newLevel = 1;

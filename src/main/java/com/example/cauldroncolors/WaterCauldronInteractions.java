@@ -66,10 +66,8 @@ public final class WaterCauldronInteractions {
                 Items.BUCKET,
                 WaterCauldronInteractions::emptyWaterCauldron
         );
-        CauldronInteraction.WATER.map().put(Items.POTION, (state, level, pos, player, hand, stack) -> { var potion = stack.get(net.minecraft.core.component.DataComponents.POTION_CONTENTS); if (state.is(CauldronColors.COLORED_WATER_CAULDRON) || state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)) { if (potion == null || potion.potion().isEmpty() || !potion.potion().get().is(net.minecraft.world.item.alchemy.Potions.WATER.unwrapKey().orElseThrow())) return InteractionResult.PASS; int oldLevel = state.getValue(LayeredCauldronBlock.LEVEL); if (oldLevel >= 3) return InteractionResult.PASS; int newLevel = oldLevel + 1; int newEggs = newLevel == 3 ? 0 : newLevel == 2 ? 16 : 32; level.setBlock(pos, state.setValue(LayeredCauldronBlock.LEVEL, newLevel).setValue(com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED, newEggs), 3); if (!player.getAbilities().instabuild) { stack.shrink(1); giveOrDrop(player, new ItemStack(Items.GLASS_BOTTLE)); } return InteractionResult.SUCCESS; } return vanillaWaterPotionInteraction.interact(state, level, pos, player, hand, stack); });
-
-
-        CauldronInteraction.WATER.map().put(Items.POTION, (state, level, pos, player, hand, stack) -> { var potion = stack.get(net.minecraft.core.component.DataComponents.POTION_CONTENTS); if (state.is(CauldronColors.COLORED_WATER_CAULDRON) || state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)) { if (potion == null || potion.potion().isEmpty() || !potion.potion().get().is(net.minecraft.world.item.alchemy.Potions.WATER.unwrapKey().orElseThrow())) return InteractionResult.PASS; int oldLevel = state.getValue(LayeredCauldronBlock.LEVEL); if (oldLevel >= 3) return InteractionResult.PASS; int newLevel = oldLevel + 1; int newEggs = newLevel == 3 ? 0 : newLevel == 2 ? 16 : 32; level.setBlock(pos, state.setValue(LayeredCauldronBlock.LEVEL, newLevel).setValue(com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED, newEggs), 3); if (!player.getAbilities().instabuild) { stack.shrink(1); giveOrDrop(player, new ItemStack(Items.GLASS_BOTTLE)); } return InteractionResult.SUCCESS; } return vanillaWaterPotionInteraction.interact(state, level, pos, player, hand, stack); });
+CauldronInteraction.WATER.map().put(Items.POTION, (state, level, pos, player, hand, stack) -> { var potion = stack.get(net.minecraft.core.component.DataComponents.POTION_CONTENTS); if (state.is(CauldronColors.COLORED_WATER_CAULDRON) || state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)) { if (potion == null || potion.potion().isEmpty() || !potion.potion().get().is(net.minecraft.world.item.alchemy.Potions.WATER.unwrapKey().orElseThrow())) return InteractionResult.PASS; int oldEggs = state.getValue(com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED); if (oldEggs <= 0) return InteractionResult.PASS; int newEggs = oldEggs - 16; int newLevel = newEggs < 16 ? 3 : newEggs < 32 ? 2 : 1; level.setBlock(pos, state.setValue(LayeredCauldronBlock.LEVEL, newLevel).setValue(com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED, newEggs), 3); if (!player.getAbilities().instabuild) { stack.shrink(1); giveOrDrop(player, new ItemStack(Items.GLASS_BOTTLE)); } return InteractionResult.SUCCESS; } return vanillaWaterPotionInteraction.interact(state, level, pos, player, hand, stack); });
+CauldronInteraction.WATER.map().put(Items.POTION, (state, level, pos, player, hand, stack) -> { var potion = stack.get(net.minecraft.core.component.DataComponents.POTION_CONTENTS); if (state.is(CauldronColors.COLORED_WATER_CAULDRON) || state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)) { if (potion == null || potion.potion().isEmpty() || !potion.potion().get().is(net.minecraft.world.item.alchemy.Potions.WATER.unwrapKey().orElseThrow())) return InteractionResult.PASS; int oldEggs = state.getValue(com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED); if (oldEggs <= 0) return InteractionResult.PASS; int newEggs = oldEggs - 16; int newLevel = newEggs < 16 ? 3 : newEggs < 32 ? 2 : 1; level.setBlock(pos, state.setValue(LayeredCauldronBlock.LEVEL, newLevel).setValue(com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED, newEggs), 3); if (!player.getAbilities().instabuild) { stack.shrink(1); giveOrDrop(player, new ItemStack(Items.GLASS_BOTTLE)); } return InteractionResult.SUCCESS; } return vanillaWaterPotionInteraction.interact(state, level, pos, player, hand, stack); });
 
         CauldronInteraction.WATER.map().put(
                 Items.GLASS_BOTTLE,
@@ -163,23 +161,41 @@ private static InteractionOutcome applyFillWaterBottleFromWaterCauldron(
             InteractionHand hand,
             ItemStack stack
     ) {
+        int currentEggCount = state.is(CauldronColors.COLORED_WATER_CAULDRON)
+                || state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)
+                ? state.getValue(com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED)
+                : -1;
+
         int currentLevel = state.getValue(LayeredCauldronBlock.LEVEL);
 
         if (currentLevel <= 0) {
             return InteractionOutcome.NOT_APPLICABLE;
         }
 
-        BlockState newState =
-                currentLevel == 1
-                        ? (state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)
+        BlockState newState;
+
+        if (currentEggCount >= 0) {
+            int newEggCount = Math.min(64, currentEggCount + 16);
+
+            newState = newEggCount >= 64
+                    ? (state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)
                         ? CauldronColors.COPPER_CAULDRON.defaultBlockState()
                         : Blocks.CAULDRON.defaultBlockState())
-                        : state.setValue(
-                                LayeredCauldronBlock.LEVEL,
-                                currentLevel - 1
-                        );
+                    : state
+                        .setValue(LayeredCauldronBlock.LEVEL,
+                                newEggCount < 16 ? 3 : newEggCount < 32 ? 2 : 1)
+                        .setValue(
+                                com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED,
+                                newEggCount);
+        } else {
+            newState = currentLevel == 1
+                    ? (state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)
+                        ? CauldronColors.COPPER_CAULDRON.defaultBlockState()
+                        : Blocks.CAULDRON.defaultBlockState())
+                    : state.setValue(LayeredCauldronBlock.LEVEL, currentLevel - 1);
+        }
 
-        if (state.is(CauldronColors.COLORED_WATER_CAULDRON) || state.is(CauldronColors.COPPER_COLORED_WATER_CAULDRON)) { int newEggCount = switch (newState.getValue(LayeredCauldronBlock.LEVEL)) { case 3 -> 0; case 2 -> 16; default -> 32; }; newState = newState.setValue(com.example.cauldroncolors.block.ColoredWaterCauldronBlock.EGGS_DYED, newEggCount); } level.setBlock(pos, newState, 3);
+        level.setBlock(pos, newState, 3);
 
         if (!player.getAbilities().instabuild) {
             stack.shrink(1);
