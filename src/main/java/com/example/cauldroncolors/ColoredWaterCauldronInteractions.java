@@ -89,18 +89,20 @@ private static InteractionOutcome applyDyeFullCauldron(
 
     if ((!state.is(Blocks.WATER_CAULDRON)
             && !state.is(CauldronColors.COPPER_CAULDRON))
-            || currentLevel != 3) {
+            || currentLevel < 1 || currentLevel > 3) {
         return InteractionOutcome.NOT_APPLICABLE;
     }
 
+    int eggsDyed = currentLevel == 1 ? 32 : currentLevel == 2 ? 16 : 0;
+
     BlockState coloredState =
             (state.is(CauldronColors.COPPER_CAULDRON) ? CauldronColors.COPPER_COLORED_WATER_CAULDRON : CauldronColors.COLORED_WATER_CAULDRON).defaultBlockState()
-                    .setValue(ColoredWaterCauldronBlock.LEVEL, 3)
+                    .setValue(ColoredWaterCauldronBlock.LEVEL, currentLevel)
                     .setValue(
                             ColoredWaterCauldronBlock.COLOR,
                             CauldronColor.fromDyeColor(dyeColor)
                     )
-                    .setValue(ColoredWaterCauldronBlock.EGGS_DYED, 0);
+                    .setValue(ColoredWaterCauldronBlock.EGGS_DYED, eggsDyed);
 
     level.setBlock(pos, coloredState, 3);
 
