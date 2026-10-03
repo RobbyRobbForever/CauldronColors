@@ -69,6 +69,28 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
         builder.add(LEVEL, LAVA, SNOW, LAVA_WARNING);
     }
 
+
+    @Override
+    public void handlePrecipitation(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            net.minecraft.world.level.biome.Biome.Precipitation precipitation
+    ) {
+        if (level.isClientSide()
+                || state.getValue(LAVA)
+                || state.getValue(SNOW)
+                || precipitation != net.minecraft.world.level.biome.Biome.Precipitation.RAIN
+                || level.getRandom().nextFloat() >= 0.05F) {
+            return;
+        }
+
+        int currentLevel = state.getValue(LEVEL);
+
+        if (currentLevel < 3) {
+            level.setBlock(pos, state.setValue(LEVEL, currentLevel + 1), 3);
+        }
+    }
     @Override
     public void tick(
             BlockState state,
