@@ -57,26 +57,25 @@ public ColoredWaterCauldronBlock(BlockBehaviour.Properties properties) {
             BlockPos pos,
             net.minecraft.world.level.biome.Biome.Precipitation precipitation
     ) {
-        int oldLevel = state.getValue(LEVEL);
-
-        super.handlePrecipitation(state, level, pos, precipitation);
-
-        BlockState newState = level.getBlockState(pos);
-        int newLevel = newState.getValue(LEVEL);
-
-        if (newState.getBlock() == this && newLevel != oldLevel) {
-            int newEggCount = switch (newLevel) {
-                case 3 -> 0;
-                case 2 -> 16;
-                default -> 32;
-            };
-
-            level.setBlock(
-                    pos,
-                    newState.setValue(EGGS_DYED, newEggCount),
-                    3
-            );
+        if (level.isClientSide()
+                || precipitation != Biome.Precipitation.RAIN
+                || level.getRandom().nextFloat() >= 0.05F) {
+            return;
         }
+
+        int eggsDyed = state.getValue(EGGS_DYED);
+
+        com.example.cauldroncolors.CauldronInteractionUtil
+                .tryApplyOneUnit(eggsDyed, 0, -16)
+                .ifPresent(newEggsDyed -> level.setBlock(
+                        pos,
+                        state.setValue(EGGS_DYED, newEggsDyed)
+                                .setValue(
+                                        LEVEL,
+                                        com.example.cauldroncolors.CauldronInteractionUtil.levelForEggsDyed(newEggsDyed)
+                                ),
+                        3
+                ));
     }
     @Override
     public void animateTick(

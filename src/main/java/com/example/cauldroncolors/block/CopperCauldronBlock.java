@@ -85,11 +85,13 @@ public class CopperCauldronBlock extends AbstractCauldronBlock {
             return;
         }
 
-        int currentLevel = state.getValue(LEVEL);
-
-        if (currentLevel < 3) {
-            level.setBlock(pos, state.setValue(LEVEL, currentLevel + 1), 3);
-        }
+        com.example.cauldroncolors.CauldronInteractionUtil
+                .tryApplyOneUnit(state.getValue(LEVEL), 3, 1)
+                .ifPresent(nextLevel -> level.setBlock(
+                        pos,
+                        state.setValue(LEVEL, nextLevel),
+                        3
+                ));
     }
     @Override
     public void tick(
